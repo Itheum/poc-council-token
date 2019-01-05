@@ -1,2 +1,2 @@
-# council-token
-Code for ERC20 Itheum Council Token
+# Itheum Council Token
+Contact Code for Itheum Council Token

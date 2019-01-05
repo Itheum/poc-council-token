@@ -1,16 +1,5 @@
 pragma solidity ^0.5.0;
 
-// ----------------------------------------------------------------------------
-// Symbol      : CTT
-// Name        : Council Test Token
-// Total supply: 10,000,000.000000000000000000
-// Decimals    : 18
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-// Safe maths
-// ----------------------------------------------------------------------------
 library SafeMath {
     function add(uint a, uint b) internal pure returns (uint c) {
         c = a + b;
@@ -89,10 +78,9 @@ contract Owned {
 
 
 // ----------------------------------------------------------------------------
-// ERC20 Token, with the addition of symbol, name and decimals and a
-// fixed supply
+// Main Token contract
 // ----------------------------------------------------------------------------
-contract FixedSupplyToken is ERC20Interface, Owned {
+contract ItheumCouncilToken is ERC20Interface, Owned {
     using SafeMath for uint;
 
     string public symbol;
@@ -103,19 +91,17 @@ contract FixedSupplyToken is ERC20Interface, Owned {
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
 
-
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
     constructor() public {
-        symbol = "CTT";
-        name = "Council Test Token";
+        symbol = "ITMCT";
+        name = "Itheum Council Token";
         decimals = 18;
-        _totalSupply = 10000000 * 10**uint(decimals);
+        _totalSupply = 1000000 * 10**uint(decimals);
         balances[owner] = _totalSupply;
         emit Transfer(address(0), owner, _totalSupply);
     }
-
 
     // ------------------------------------------------------------------------
     // Total supply
@@ -124,14 +110,12 @@ contract FixedSupplyToken is ERC20Interface, Owned {
         return _totalSupply.sub(balances[address(0)]);
     }
 
-
     // ------------------------------------------------------------------------
     // Get the token balance for account `tokenOwner`
     // ------------------------------------------------------------------------
     function balanceOf(address tokenOwner) public view returns (uint balance) {
         return balances[tokenOwner];
     }
-
 
     // ------------------------------------------------------------------------
     // Transfer the balance from token owner's account to `to` account
@@ -144,7 +128,6 @@ contract FixedSupplyToken is ERC20Interface, Owned {
         emit Transfer(msg.sender, to, tokens);
         return true;
     }
-
 
     // ------------------------------------------------------------------------
     // Token owner can approve for `spender` to transferFrom(...) `tokens`
@@ -159,7 +142,6 @@ contract FixedSupplyToken is ERC20Interface, Owned {
         emit Approval(msg.sender, spender, tokens);
         return true;
     }
-
 
     // ------------------------------------------------------------------------
     // Transfer `tokens` from the `from` account to the `to` account
@@ -178,7 +160,6 @@ contract FixedSupplyToken is ERC20Interface, Owned {
         return true;
     }
 
-
     // ------------------------------------------------------------------------
     // Returns the amount of tokens approved by the owner that can be
     // transferred to the spender's account
@@ -186,7 +167,6 @@ contract FixedSupplyToken is ERC20Interface, Owned {
     function allowance(address tokenOwner, address spender) public view returns (uint remaining) {
         return allowed[tokenOwner][spender];
     }
-
 
     // ------------------------------------------------------------------------
     // Token owner can approve for `spender` to transferFrom(...) `tokens`
@@ -200,14 +180,12 @@ contract FixedSupplyToken is ERC20Interface, Owned {
         return true;
     }
 
-
     // ------------------------------------------------------------------------
     // Don't accept ETH
     // ------------------------------------------------------------------------
     function () external payable {
         revert();
     }
-
 
     // ------------------------------------------------------------------------
     // Owner can transfer out any accidentally sent ERC20 tokens
